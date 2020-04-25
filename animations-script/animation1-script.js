@@ -57,6 +57,11 @@
       if (this.step % cfg.stepsToTurn == 0) {
         this.dir = Math.random()*6 |0;
       }
+      if (this.pos.x > cnv.width || this.pos.x <0 || this.pos.y > cnv.height || this.pos.y <0) {
+        this.dir = Math.random() * 6 | 0;
+        console.log (this.pos.x);//1221
+        console.log(this.pos.y);//759
+      }
     }
   }
 
