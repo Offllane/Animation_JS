@@ -3,10 +3,12 @@
   const ctx = cnv.getContext('2d');
 
   let cw, ch, cx, cy;
+  
 
   function resizeCanvas() {
+    let imageHeight = document.querySelector("img").height;
     cw = cnv.width = innerWidth;
-    ch = cnv.height = innerHeight;
+    ch = cnv.height = imageHeight-10;
     cx = cw / 2;
     cy = ch / 2;
   }
@@ -17,15 +19,37 @@
 
   const cfg = {
     hue: 0,
-    bgFillColor: 'rgba(50,50,50, 0.06)',
+    bgFillColor: 'rgba(30,30,30,0.01)',
     dirsCount: 6,
-    stepsToTurn: 12,
+    stepsToTurn: 40,
     dotSize: 2,
-    dotsCount: 3000,
-    dotVelocity: 2,
-    distance: 200,
-    gradientLen: 5,
-  }
+    dotsCount: 40000,
+    dotVelocity: 1,
+    distance: 500,
+    gradientLen: 5
+  };
+
+  function CheckWindowWidth() {
+    document.querySelector("img").setAttribute("width","100%");
+
+    if (innerWidth < 700) {
+      cfg.stepsToTurn = 20;
+      document.querySelector("img").setAttribute("src", "img/lion_background_mobile.png");
+      resizeCanvas();
+      console.log("here");
+    }
+
+    console.log(cnv.height);
+
+    if (innerWidth < 300) {
+      cfg.stepsToTurn = 15;
+      document.querySelector("img").setAttribute("src", "img/lion_background_mobile.png");
+      document.querySelector("img").setAttribute("height", "100%");
+      resizeCanvas();
+    }
+  }  
+
+  console.log(cfg.stepsToTurn);
 
   function drawRect(color, x, y, w, h, shadowColor, shadowBlur, gso) {
     ctx.globalCompositeOperation = gso;
@@ -34,6 +58,8 @@
     ctx.fillStyle = color;
     ctx.fillRect(x, y, w, h);
   }
+
+  
 
   class Dot {
     constructor() {
@@ -64,20 +90,25 @@
       this.pos.y += dirsList[this.dir].y*cfg.dotVelocity;
     }
 
-    changeDir() {
+    changeDir(id) {
       if (this.step % cfg.stepsToTurn == 0) {
         this.dir = Math.random() > 0.5 ? (this.dir + 1) % cfg.dirsCount : (this.dir + cfg.dirsCount - 1) % cfg.dirsCount;
       }
-      if (this.pos.x > cnv.width || this.pos.x <0 || this.pos.y > cnv.height || this.pos.y <0) {
+      let imageWidth = document.querySelector("img").width;
+      let imageHeight = document.querySelector("img").height;
+
+      if (this.pos.x > (cx + imageWidth/2) || this.pos.x <(cx - imageWidth/2) || this.pos.y > (cy+imageHeight/2) || this.pos.y <(cy-imageHeight/2)) {
        this.dir = Math.random() > 0.5 ? (this.dir + 1) % cfg.dirsCount : (this.dir + cfg.dirsCount - 1)%cfg.dirsCount;
       }
     }
 
     killDot(id) {
       let percent = Math.random() * Math.exp(this.step/cfg.distance);
-      if(percent >100) {
+      let imageWidth = document.querySelector("img").width;
+      let imageHeight = document.querySelector("img").height;
+      if (this.pos.x > (cx + imageWidth / 2 - 10) || this.pos.x < (cx - imageWidth / 2 + 10) || this.pos.y > (cy + imageHeight / 2 - 10) || this.pos.y < (cy - imageHeight / 2 + 10)) {
         dotsList.splice(id,1);
-      }
+      }      
     }
   }
 
@@ -107,16 +138,17 @@
     dotsList.forEach ((i,id) => {
       i.moveDot();
       i.redrawDot();
-      i.changeDir();
+      i.changeDir(id);
       i.killDot(id);
     })
   }
+
+  document.querySelector("body").onload = CheckWindowWidth();
 
   function loop() {
     drawRect(cfg.bgFillColor, 0, 0, cw, ch, 0, 0, 'normal');
     addDot();
     refreshDots();
-
     requestAnimationFrame(loop);
   }
   loop();

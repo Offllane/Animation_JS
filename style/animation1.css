@@ -1,8 +1,23 @@
 body {
   margin: 0;
   overflow: hidden;
+  background-color: rgb(30, 30, 30);
+}
+
+img {
+  position: absolute;
+  width: 100%;
+  margin: auto;
+  top:0;
+  bottom:0;
+  object-fit: contain;
+  z-index: 1;
 }
 
 canvas{
+  position: absolute;
+  margin: auto;
+  top:0;
+  bottom:0;
   background: rgb(30, 30, 30);
 }
