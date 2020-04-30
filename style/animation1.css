@@ -10,7 +10,7 @@ img {
   margin: auto;
   top:0;
   bottom:0;
-  object-fit: contain;
+  object-fit: fill;
   z-index: 1;
 }
 

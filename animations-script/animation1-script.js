@@ -9,6 +9,7 @@
     let imageHeight = document.querySelector("img").height;
     cw = cnv.width = innerWidth;
     ch = cnv.height = imageHeight-10;
+    console.log(imageHeight);
     cx = cw / 2;
     cy = ch / 2;
   }
@@ -31,25 +32,27 @@
 
   function CheckWindowWidth() {
     document.querySelector("img").setAttribute("width","100%");
+    let imageHeight = document.querySelector("img").height;
 
     if (innerWidth < 700) {
       cfg.stepsToTurn = 20;
       document.querySelector("img").setAttribute("src", "img/lion_background_mobile.png");
+      document.querySelector("img").setAttribute("height", "100%");
+      cnv.setAttribute("height", `${imageHeight}`);
       resizeCanvas();
-      console.log("here");
     }
 
     console.log(cnv.height);
+    console.log(document.querySelector("img").height);
 
     if (innerWidth < 300) {
       cfg.stepsToTurn = 15;
       document.querySelector("img").setAttribute("src", "img/lion_background_mobile.png");
       document.querySelector("img").setAttribute("height", "100%");
+      cnv.setAttribute("height", `${imageHeight}px`);
       resizeCanvas();
     }
   }  
-
-  console.log(cfg.stepsToTurn);
 
   function drawRect(color, x, y, w, h, shadowColor, shadowBlur, gso) {
     ctx.globalCompositeOperation = gso;
