@@ -4,7 +4,7 @@
 
   let cw, ch, cx, cy;
   
-
+  // перерисовывает канвас
   function resizeCanvas() {
     let imageHeight = document.querySelector("img").height;
     cw = cnv.width = innerWidth;
