@@ -34,6 +34,11 @@
     document.querySelector("img").setAttribute("width","100%");
     let imageHeight = document.querySelector("img").height;
 
+    if (innerWidth > 700) {
+      cnv.setAttribute("height", "100%");
+      resizeCanvas();
+    }
+
     if (innerWidth < 700) {
       cfg.stepsToTurn = 20;
       document.querySelector("img").setAttribute("src", "img/lion_background_mobile.png");
